@@ -135,90 +135,48 @@
         </section>
 
         <section class="process section" aria-labelledby="process-title">
-    <p class="eyebrow reveal">The process</p>
-    <h2 id="process-title" class="reveal">How We Work</h2>
-    <p class="process-intro reveal">A transparent design journey from consultation to handover.</p>
-    <div class="timeline reveal">
-        <article>
-            <div class="process-image"><img src="images/1.jpg" alt="Site visit"></div>
-            <b>01</b>
-            <h3>Free Site Visit</h3>
-            <p>We visit your property to understand your space, take measurements, and assess the potential.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/2.jpg" alt="Consultation"></div>
-            <b>02</b>
-            <h3>Free Consultation</h3>
-            <p>We discuss your lifestyle, ideas, inspirations, and what you envision for your dream space.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/3.jpg" alt="Requirements"></div>
-            <b>03</b>
-            <h3>Understanding Your Requirements</h3>
-            <p>We dive deep into your needs, preferences, and functional requirements to ensure perfect alignment.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/4.jpg" alt="Budget"></div>
-            <b>04</b>
-            <h3>Budget Planning</h3>
-            <p>We help you plan your budget strategically, ensuring maximum value for your investment.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/5.jpg" alt="Commitment"></div>
-            <b>05</b>
-            <h3>Commitment Towards Project</h3>
-            <p>We charge 2% of budget value as commitment towards project which shall be adjusted in the project cost.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/6.jpg" alt="2D Layout"></div>
-            <b>06</b>
-            <h3>Preparing 2D Layout</h3>
-            <p>We create detailed 2D floor plans that optimize space utilization and flow.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/7.jpg" alt="3D Visualisation"></div>
-            <b>07</b>
-            <h3>3D Visualisation</h3>
-            <p>We bring your space to life with realistic 3D renderings showing every detail before execution.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/8.jpg" alt="Quotation"></div>
-            <b>08</b>
-            <h3>Preparing Quotation</h3>
-            <p>We provide a clear BOQ with transparent pricing and detailed material specifications.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/9.jpg" alt="Advance"></div>
-            <b>09</b>
-            <h3>Approval & Advance Payment</h3>
-            <p>After approval, we collect 50% advance to commence work and secure materials.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/10.jpg" alt="Structure"></div>
-            <b>10</b>
-            <h3>Completion of Structure</h3>
-            <p>We complete all structural work including false ceiling, electrical, plumbing, and carpentry.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/11.jpg" alt="Interim Payment"></div>
-            <b>11</b>
-            <h3>Interim Payment</h3>
-            <p>40% payment at the time of structure completion to continue with finishing work.</p>
-        </article>
-        <article>
-            <div class="process-image"><img src="images/12.jpg" alt="Handover"></div>
-            <b>12</b>
-            <h3>Final Handover</h3>
-            <p>Remaining 10% payment and completed home handover, ready to be lived in.</p>
-        </article>
-    </div>
-</section>
+            <p class="eyebrow reveal">The process</p>
+            <h2 id="process-title" class="reveal">How We Work</h2>
+            <p class="process-intro reveal">A transparent design journey from consultation to handover.</p>
+            <div class="timeline reveal">
+                <article>
+                    <b>01</b>
+                    <h3>Free Site Visit</h3>
+                    <p>We visit your property to understand your space.</p>
+                </article>
+                <article>
+                    <b>02</b>
+                    <h3>Free Consultation</h3>
+                    <p>We discuss your lifestyle, ideas and inspirations.</p>
+                </article>
+                <article>
+                    <b>03</b>
+                    <h3>Design Direction</h3>
+                    <p>Layouts, material concepts and visualisation.</p>
+                </article>
+                <article>
+                    <b>04</b>
+                    <h3>Quotation & Approval</h3>
+                    <p>A clear BOQ, timeline and design sign-off.</p>
+                </article>
+                <article>
+                    <b>05</b>
+                    <h3>Execution</h3>
+                    <p>Procurement and craftsmanship, managed end to end.</p>
+                </article>
+                <article>
+                    <b>06</b>
+                    <h3>Final Handover</h3>
+                    <p>Your completed home, ready to be lived in.</p>
+                </article>
+            </div>
+        </section>
 
         <section class="contact" id="contact">
             <div class="contact-intro reveal">
                 <p class="eyebrow">Get in touch</p>
                 <h2>Let's Design Your<br />Dream Space</h2>
-                <p>Tell us about your project and we’ll get back to you within 24 hours to schedule a free consultation.</p>
+                <p>Tell us about your project and we’ll get back to you within 24 hours to schedule a complimentary consultation.</p>
             </div>
             <div class="contact-grid">
                 <aside class="studio-details reveal">
