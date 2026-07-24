@@ -89,11 +89,11 @@
             <form id="login-form">
                 <label>
                     Email address
-                    <input type="email" id="email" required placeholder="admin@livorainteriors.com" />
+                    <input type="email" id="email" required placeholder="admin@livorainteriors.com" autocomplete="email" />
                 </label>
                 <label>
                     Password
-                    <input type="password" id="password" required placeholder="Enter your password" />
+                    <input type="password" id="password" required placeholder="Enter your password" autocomplete="current-password" />
                 </label>
                 <button class="button button-dark" type="submit">Sign in</button>
                 <p class="form-status" id="login-status" aria-live="polite"></p>
@@ -103,68 +103,69 @@
         </div>
     </section>
 
-  <!-- Supabase Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabaseClient.js"></script>
+    <!-- Supabase Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
 
-<!-- Robust Login Logic -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('login-form');
-        const statusEl = document.getElementById('login-status');
-        
-        // Safely check if user is already logged in
-        async function checkExistingUser() {
-            try {
-                if (typeof checkUser === 'function') {
-                    const user = await checkUser();
-                    if (user) {
-                        window.location.href = 'admin.html'; 
-                    }
-                }
-            } catch (e) {
-                console.warn("Skipping auto-login check:", e);
-            }
-        }
-        checkExistingUser();
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    <!-- Robust Login Logic (UPDATED with window._supabaseClient) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('login-form');
+            const statusEl = document.getElementById('login-status');
             
-            statusEl.className = '';
-            statusEl.textContent = 'Please wait...';
-            statusEl.style.display = 'block';
-
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-
-            try {
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) {
-                    statusEl.className = 'error';
-                    statusEl.textContent = error.message; 
-                    return;
+            // Safely check if user is already logged in
+            async function checkExistingUser() {
+                try {
+                    if (typeof checkUser === 'function') {
+                        const user = await checkUser();
+                        if (user) {
+                            window.location.href = 'admin.html'; 
+                        }
+                    }
+                } catch (e) {
+                    console.warn("Skipping auto-login check:", e);
                 }
-
-                if (data.user) {
-                    statusEl.className = 'success';
-                    statusEl.textContent = "Success! Redirecting...";
-                    setTimeout(() => {
-                        window.location.href = 'admin.html'; 
-                    }, 1000);
-                }
-            } catch (err) {
-                statusEl.className = 'error';
-                statusEl.textContent = "Connection error. Are you using Live Server?";
-                console.error(err);
             }
+            checkExistingUser();
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                statusEl.className = '';
+                statusEl.textContent = 'Please wait...';
+                statusEl.style.display = 'block';
+
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                try {
+                    // UPDATED: using window._supabaseClient instead of supabase
+                    const { data, error } = await window._supabaseClient.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) {
+                        statusEl.className = 'error';
+                        statusEl.textContent = error.message; 
+                        return;
+                    }
+
+                    if (data.user) {
+                        statusEl.className = 'success';
+                        statusEl.textContent = "Success! Redirecting...";
+                        setTimeout(() => {
+                            window.location.href = 'admin.html'; 
+                        }, 1000);
+                    }
+                } catch (err) {
+                    statusEl.className = 'error';
+                    statusEl.textContent = "Connection error. Are you using Live Server?";
+                    console.error(err);
+                }
+            });
         });
-    });
-</script>
+    </script>
     
 </body>
 </html>
