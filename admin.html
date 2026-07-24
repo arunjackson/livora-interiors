@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html>
-<head><title>Admin Dashboard</title></head>
-<body style="font-family: Jost, sans-serif; background: #f8f3ec; padding: 50px;">
-    <h1 style="color: #c7a04b;">Admin Dashboard</h1>
-    <p>You are successfully logged in!</p>
-    <button onclick="signOut()" style="background:#2a211d; color:white; border:none; padding:15px 30px; cursor:pointer;">Log Out</button>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="font-fix.css">
+    <style>
+        body { background: var(--cream); padding: 80px 28px; text-align: center; }
+        h1 { color: var(--gold); font-family: "Cormorant Garamond", serif; font-size: 48px; }
+        .logout-btn { margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome, Admin!</h1>
+    <p style="color: var(--muted);">You have successfully logged into the dashboard.</p>
+    <button class="button button-dark" onclick="signOut()">Log Out</button>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
 </body>
