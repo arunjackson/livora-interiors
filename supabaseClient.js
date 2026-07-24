@@ -1,22 +1,24 @@
-const SUPABASE_URL = 'https://pdndahgnrscvdxqicxuw.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkbmRhaGducnNjdmR4cWljeHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NjczODQsImV4cCI6MjEwMDQ0MzM4NH0.iRwpFRsUtrGSlajpuYYodifHcb9SKpTydTHR0gbolW4';
+// This safely wraps the client creation so we never get "Identifier already declared"
+(function() {
+    const SUPABASE_URL = 'https://pdndahgnrscvdxqicxuw.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkbmRhaGducnNjdmR4cWljeHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NjczODQsImV4cCI6MjEwMDQ0MzM4NH0.iRwpFRsUtrGSlajpuYYodifHcb9SKpTydTHR0gbolW4';
 
-// Safety Check: ensure the CDN library loaded first
-if (typeof window.supabase === 'undefined') {
-    console.error("CRITICAL ERROR: Supabase JS library (CDN) failed to load.");
-} else {
-    // Create the client safely
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    if (typeof window.supabase === 'undefined') {
+        console.error("Supabase CDN failed to load!");
+        return;
+    }
     
-    // Helper to check login status
-    async function checkUser() {
-        const { data: { user } } = await supabase.auth.getUser();
-        return user;
-    }
+    // Instead of a local 'const supabase', we attach it to the global 'window' object.
+    window._supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+})();
 
-    // Helper to log out
-    async function signOut() {
-        await supabase.auth.signOut();
-        window.location.href = 'index.html';
-    }
+// Global helpers for your HTML pages to use
+async function checkUser() {
+    const { data: { user } } = await window._supabaseClient.auth.getUser();
+    return user;
+}
+
+async function signOut() {
+    await window._supabaseClient.auth.signOut();
+    window.location.href = 'index.html';
 }
