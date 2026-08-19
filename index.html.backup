@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Livora Interiors — Luxury, Made Personal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="font-fix.css" />
+</head>
+<body>
+    <div id="top" style="position:absolute; top:0; left:0; width:0; height:0;"></div>
+    <header class="site-header" id="top">
+<a class="brand" href="#top" aria-label="Livora Interiors home">
+    <img src="https://i.ibb.co/67CXXSy0/logo-lww.jpg" alt="Livora Logo" style="max-width:80px;height:auto;" />
+</a>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a class="active" href="#top">Home</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <a class="button button-outline header-cta" href="#contact">Book consultation</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content reveal">
+                <p class="eyebrow">Bangalore, India</p>
+                <h1>Where Luxury Meets<br />Simplicity.</h1>
+                <p class="hero-copy">We transform Indian homes into beautiful, functional, and inspiring spaces that reflect the personality and lifestyle of those who live in them.</p>
+                <a class="button button-outline" href="#contact">Book a consultation</a>
+            </div>
+        </section>
+
+        <section class="services section" id="services">
+            <div class="section-title reveal">
+                <p class="eyebrow">What we do</p>
+                <h2>Spaces Crafted With Intention</h2>
+            </div>
+            <div class="service-list reveal">
+                <article>
+                    <span>01</span>
+                    <div>
+                        <h3>Residential Design</h3>
+                        <p>Complete interior transformations for homes — from concept to completion, tailored to your lifestyle.</p>
+                    </div>
+                </article>
+                <article>
+                    <span>02</span>
+                    <div>
+                        <h3>Space Planning</h3>
+                        <p>Intelligent layouts that maximise flow, light, and function without compromising on beauty.</p>
+                    </div>
+                </article>
+                <article>
+                    <span>03</span>
+                    <div>
+                        <h3>Turnkey Projects</h3>
+                        <p>End-to-end project management — we handle every detail so you can simply walk into your dream home.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="portfolio section" id="portfolio">
+            <div class="section-heading reveal">
+                <div>
+                    <p class="eyebrow">Our work</p>
+                    <h2>Stories We Design</h2>
+                </div>
+                <a class="text-link" href="portfolio.html">View all projects <i>—</i></a>
+            </div>
+            <div class="gallery reveal">
+                <a class="project large" href="#contact">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85" alt="Warm modern living room" />
+                    <b>Living room</b>
+                </a>
+                <a class="project bedroom" href="#contact">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=85" alt="Calm bedroom" />
+                    <b>Master bedroom</b>
+                </a>
+                <a class="project kitchen" href="#contact">
+                    <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&w=900&q=85" alt="Modern kitchen" />
+                    <b>Modern kitchen</b>
+                </a>
+                <a class="project dining" href="#contact">
+                    <img src="https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=85" alt="Contemporary dining space" />
+                    <b>Dining space</b>
+                </a>
+            </div>
+        </section>
+
+        <section class="philosophy section" id="about">
+            <div class="philosophy-image reveal">
+                <img src="https://i.ibb.co/kshr5vJ8/our-philosaphy-lw.webp" alt="Luxury lounge furniture" />
+            </div>
+            <div class="philosophy-copy reveal">
+                <p class="eyebrow">Our philosophy</p>
+                <h2>“We don't just design rooms. We design the way you live.”</h2>
+                <ol>
+                    <li>Every design decision is rooted in how you actually live — not just how it looks.</li>
+                    <li>We source materials and furnishings that age beautifully and stand the test of time.</li>
+                    <li>Transparent process, honest timelines, and a studio that's with you at every step.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="testimonials section">
+            <p class="eyebrow reveal">Client stories</p>
+            <h2 class="reveal">What Our Clients Say</h2>
+            <div class="testimonial-grid reveal">
+                <blockquote>
+                    <em>“</em>
+                    <p>Livora turned our apartment into something we never imagined possible. Every corner feels intentional, warm, and completely us.</p>
+                    <footer>
+                        <strong>Akhila P. Singh</strong>
+                        <small>Medahalli, Bangalore</small>
+                    </footer>
+                </blockquote>
+                <blockquote>
+                    <em>“</em>
+                    <p>The attention to detail was extraordinary. They understood our brief on the first meeting and delivered beyond expectations.</p>
+                    <footer>
+                        <strong>Poornima Vamshi</strong>
+                        <small>RamurthyNagar, Bangalore</small>
+                    </footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="process section" aria-labelledby="process-title">
+            <p class="eyebrow reveal">The process</p>
+            <h2 id="process-title" class="reveal">How We Work</h2>
+            <p class="process-intro reveal">A transparent design journey from consultation to handover.</p>
+            <div class="timeline reveal">
+                <article>
+                    <b>01</b>
+                    <h3>Free Site Visit</h3>
+                    <p>We visit your property to understand your space.</p>
+                </article>
+                <article>
+                    <b>02</b>
+                    <h3>Free Consultation</h3>
+                    <p>We discuss your lifestyle, ideas and inspirations.</p>
+                </article>
+                <article>
+                    <b>03</b>
+                    <h3>Design Direction</h3>
+                    <p>Layouts, material concepts and visualisation.</p>
+                </article>
+                <article>
+                    <b>04</b>
+                    <h3>Quotation & Approval</h3>
+                    <p>A clear BOQ, timeline and design sign-off.</p>
+                </article>
+                <article>
+                    <b>05</b>
+                    <h3>Execution</h3>
+                    <p>Procurement and craftsmanship, managed end to end.</p>
+                </article>
+                <article>
+                    <b>06</b>
+                    <h3>Final Handover</h3>
+                    <p>Your completed home, ready to be lived in.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="contact-intro reveal">
+                <p class="eyebrow">Get in touch</p>
+                <h2>Let's Design Your<br />Dream Space</h2>
+                <p>Tell us about your project and we’ll get back to you within 24 hours to schedule a complimentary consultation.</p>
+            </div>
+            <div class="contact-grid">
+                <aside class="studio-details reveal">
+                    <h3>Visit Our Studio</h3>
+                    <dl>
+                        <dt>Studio address</dt>
+                        <dd>#C-6, 4th Cross, Karnasree Layout, Medahalli, Virgonagar post, Bangalore-560049</dd>
+                        <dt>Phone</dt>
+                        <dd><a href="tel:+917204321362">+91 7204321362</a></dd>
+                        <dt>Email</dt>
+                        <dd><a href="mailto:livorainteriors62@gmail.com">livorainteriors62@gmail.com</a></dd>
+                        <dt>Studio hours</dt>
+                        <dd>Monday — Saturday, 10:00 AM — 7:00 PM</dd>
+                    </dl>
+                </aside>
+                <form class="contact-form reveal">
+                    <h3>Start Your Project</h3>
+                    <p>Fill in the details below and our design team will reach out to discuss your vision.</p>
+                    <div class="two-col">
+                        <label>
+                            Full name *
+                            <input required placeholder="Priya Sharma" />
+                        </label>
+                        <label>
+                            Email address *
+                            <input type="email" required placeholder="priya@example.com" />
+                        </label>
+                    </div>
+                    <label>
+                        Phone number
+                        <input type="tel" placeholder="+91 98765 43210" />
+                    </label>
+                    <div class="two-col">
+                        <label>
+                            Project type *
+                            <select required>
+                                <option value="">Select a type</option>
+                                <option>Residential design</option>
+                                <option>Space planning</option>
+                                <option>Turnkey project</option>
+                            </select>
+                        </label>
+                        <label>
+                            Budget range
+                            <select>
+                                <option value="">Select a range</option>
+                                <option>₹5–10 lakh</option>
+                                <option>₹10–25 lakh</option>
+                                <option>₹25 lakh+</option>
+                            </select>
+                        </label>
+                    </div>
+                    <label>
+                        Tell us about your project *
+                        <textarea required placeholder="Describe your space, style preferences, timeline, and any specific requirements…"></textarea>
+                    </label>
+                    <button class="button button-dark" type="submit">Send inquiry</button>
+                    <p class="form-status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="reveal">
+                <p class="eyebrow">Let's begin</p>
+                <h2>Ready to Transform Your<br />Home?</h2>
+                <p>Let’s begin with a conversation. Tell us about your space, your lifestyle, and your vision.</p>
+                <a class="button button-gold" href="#contact">Start your journey</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+<a class="brand" href="#top" aria-label="Livora Interiors home">
+    <img src="https://i.ibb.co/67CXXSy0/logo-lww.jpg" alt="Livora Logo" style="max-width:80px;height:auto;" />
+</a>
+            <div>
+                <h4>Navigation</h4>
+                <a href="#top">Home</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div>
+                <h4>Studio</h4>
+                <p>Bangalore, Karnataka<br />India</p>
+                <a href="mailto:livorainteriors62@gmail.com">livora-interiors.com</a>
+                <a class="button button-outline" href="#contact">Book consultation</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+                        <span>
+                <a href="https://www.facebook.com/LivoraInteriors" target="_blank" style="color:#c7a04b; text-decoration:none; margin-right:15px;">Facebook</a>
+                <a href="https://www.instagram.com/livora_interiors62/" target="_blank" style="color:#c7a04b; text-decoration:none; margin-right:15px;">Instagram</a>
+                <a href="https://www.youtube.com/@livorainteriors-62" target="_blank" style="color:#c7a04b; text-decoration:none; margin-right:25px;">YouTube</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+
+    <!-- WhatsApp Form Handler (Working Version) -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector(".contact-form");
+        if (!form) return;
+        const submitBtn = form.querySelector(".button-dark");
+        if (submitBtn) {
+            submitBtn.addEventListener("click", function(e) {
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                e.preventDefault();
+                const inputs = form.querySelectorAll("input, select, textarea");
+                let name = "", email = "", phone = "", project = "", budget = "", message = "";
+                inputs.forEach(input => {
+                    const placeholder = input.placeholder || "";
+                    if (placeholder.includes("Priya")) name = input.value;
+                    else if (placeholder.includes("priya@")) email = input.value;
+                    else if (placeholder.includes("+91")) phone = input.value;
+                    else if (placeholder.includes("Describe")) message = input.value;
+                    if (input.tagName === "SELECT") {
+                        if (!project) project = input.options[input.selectedIndex].text;
+                        else budget = input.options[input.selectedIndex].text;
+                    }
+                });
+                const finalMessage = 
+                    `Hello Livora Interiors!%0A%0A` +
+                    `*Name:* ${name}%0A` +
+                    `*Email:* ${email}%0A` +
+                    `*Phone:* ${phone}%0A` +
+                    `*Project:* ${project}%0A` +
+                    `*Budget:* ${budget}%0A%0A` +
+                    `*Message:*%0A${message}`;
+                window.open(`https://wa.me/917204321362?text=${finalMessage}`, '_blank');
+            });
+        }
+    });
+    </script>
+</body>
+</html>

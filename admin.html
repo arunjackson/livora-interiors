@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard — Ar Bee Studio</title>
+    <link rel="icon" href="https://i.ibb.co/4nVFMjJH/Whats-App-Image-2026-08-18-at-19-58-03.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="font-fix.css" />
+    
+    <style>
+        .admin-section { padding: 50px max(28px, 4vw) 100px; min-height: calc(100vh - 112px); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 30px; margin-bottom: 30px; flex-wrap: wrap; gap: 20px;}
+        .admin-header h2 { font-size: 48px; margin: 0; font-weight: 600;}
+        
+        .view-controls { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .view-controls select, .view-controls input { background: #fff; border: 1px solid var(--line); padding: 10px 16px; font-family: Jost, sans-serif; font-size: 14px; }
+        .filter-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        
+        .status-pill { border: 1px solid var(--muted); background: transparent; padding: 6px 18px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .status-pill.active { background: var(--dark); color: #fff; border-color: var(--dark); }
+        .status-pill.not-reached-out { border-color: #bf3131; color: #bf3131; }
+        .status-pill.not-reached-out.active { background: #bf3131; color: #fff; }
+        .status-pill.in-progress { border-color: #e6a825; color: #e6a825; }
+        .status-pill.in-progress.active { background: #e6a825; color: #fff; }
+        .status-pill.negotiation { border-color: #1e7bbf; color: #1e7bbf; }
+        .status-pill.negotiation.active { background: #1e7bbf; color: #fff; }
+        .status-pill.won { border-color: #3f8f3f; color: #3f8f3f; }
+        .status-pill.won.active { background: #3f8f3f; color: #fff; }
+        
+        .crm-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); }
+        .crm-table th { text-align: left; padding: 18px 20px; border-bottom: 2px solid var(--line); text-transform: uppercase; letter-spacing: 1.5px; font-size: 12px; color: var(--muted); background: var(--cream); }
+        .crm-table td { padding: 16px 20px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+        .crm-table tr:last-child td { border-bottom: none; }
+        .crm-table .sub-text { font-size: 13px; color: var(--muted); display: block; margin-top: 2px; font-weight: 400; }
+        .crm-table .stage-badge { background: var(--gold); color: var(--dark); padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+        .crm-table .btn-manage { background: var(--dark); color: #fff; border: none; padding: 6px 16px; font-size: 12px; border-radius: 2px; cursor: pointer; }
+        .crm-table .btn-manage:hover { background: var(--gold); color: var(--dark); }
+        .crm-table .btn-convert { background: #3f8f3f; color: #fff; border: none; padding: 6px 16px; font-size: 12px; border-radius: 2px; cursor: pointer; }
+        .crm-table .btn-convert:hover { background: #2d662d; }
+        .empty-state { padding: 60px; text-align: center; color: var(--muted); background: #fff; border: 1px solid var(--line); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 36, 31, 0.8); z-index: 999; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #fff; max-width: 550px; width: 100%; padding: 40px; border: 1px solid var(--line); position: relative; }
+        .modal-box h3 { font-size: 30px; margin-top: 0; margin-bottom: 25px; }
+        .modal-box .close-modal { position: absolute; top: 20px; right: 25px; font-size: 28px; cursor: pointer; color: var(--muted); background: none; border: none; }
+        .modal-box select, .modal-box textarea { background: var(--cream); border: 1px solid var(--line); width: 100%; padding: 14px; font-family: Jost, sans-serif; margin-bottom: 20px; }
+        .modal-box .button-dark { width: 100%; }
+        @media (max-width: 600px) { .admin-header h2 { font-size: 36px; } .crm-table { font-size: 13px; } .crm-table th, .crm-table td { padding: 12px; } }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html"><img src="https://i.ibb.co/4nVFMjJH/Whats-App-Image-2026-08-18-at-19-58-03.jpg" alt="Ar Bee Studio Logo" style="max-width:80px;height:auto;" /></a>
+        <span style="color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Admin Panel</span>
+        <div><button class="button button-outline" onclick="signOut()" style="padding: 0 30px; min-height: 40px; height: 40px; font-size: 11px;">Log Out</button></div>
+    </header>
+
+    <section class="admin-section" id="main-content">
+        <div class="admin-header">
+            <div>
+                <h2>Client Management</h2>
+                <p style="color:var(--muted); font-weight:600; margin:0;">Manage active projects & web leads.</p>
+            </div>
+            <div style="display:flex; gap:15px;">
+                <select id="viewSelector" onchange="switchView()" style="padding:12px 18px; border:1px solid var(--line); background:#fff; font-family:Jost;">
+                    <option value="projects">Active Projects</option>
+                    <option value="leads">Web Leads</option>
+                </select>
+                <button class="button button-dark" onclick="openCreateModal()" style="min-height: 45px;">+ New Project</button>
+            </div>
+        </div>
+
+        <div id="controls-area" class="view-controls"></div>
+        <div id="data-area"></div>
+    </section>
+
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <h3 id="modalTitle">Edit Project</h3>
+            <form id="projectForm">
+                <input type="hidden" id="projectId">
+                <label>Project Name <input type="text" id="projName" required></label>
+                <label>Customer Name <input type="text" id="custName" required></label>
+                <label>Customer Email <input type="email" id="custEmail" required></label>
+                <label>Current Stage (1-12) <select id="projStage"><script>for(let i=1; i<=12; i++) document.write(`<option value="${i}">Stage ${i}</option>`);</script></select></label>
+                <label>Add an update note <textarea id="updateNote" placeholder="Ex: Carpentry started..."></textarea></label>
+                <button class="button button-dark" type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script>
+        let currentView = 'projects';
+        let projectsData = [];
+        let leadsData = [];
+
+        const container = document.getElementById('data-area');
+        const controls = document.getElementById('controls-area');
+
+        async function loadData() {
+            const [projRes, leadRes] = await Promise.all([
+                window._supabaseClient.from('projects').select('*').order('created_at', { ascending: false }),
+                window._supabaseClient.from('inquiries').select('*').order('created_at', { ascending: false })
+            ]);
+            if (projRes.error) console.error(projRes.error);
+            else projectsData = projRes.data || [];
+            if (leadRes.error) console.error(leadRes.error);
+            else leadsData = leadRes.data || [];
+            renderView();
+        }
+
+        function switchView() {
+            currentView = document.getElementById('viewSelector').value;
+            renderView();
+        }
+
+        function renderView() {
+            if (currentView === 'projects') renderProjects();
+            else renderLeads();
+        }
+
+        // --- PROJECTS VIEW ---
+        function renderProjects() {
+            controls.innerHTML = `
+                <input type="text" id="projSearch" placeholder="Search name..." oninput="filterProjects()" style="padding:10px 14px; border:1px solid var(--line); background:#fff;">
+                <select id="projStageFilter" onchange="filterProjects()" style="padding:10px 14px; border:1px solid var(--line); background:#fff;">
+                    <option value="all">All Stages</option>
+                    ${Array.from({length:12}, (_,i) => `<option value="${i+1}">Stage ${i+1}</option>`).join('')}
+                </select>
+                <select id="projStatusFilter" onchange="filterProjects()" style="padding:10px 14px; border:1px solid var(--line); background:#fff;">
+                    <option value="all">All Status</option>
+                    <option value="not-started">Not Started</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            `;
+            filterProjects();
+        }
+
+        function filterProjects() {
+            const search = document.getElementById('projSearch').value.toLowerCase();
+            const stage = document.getElementById('projStageFilter').value;
+            const status = document.getElementById('projStatusFilter').value;
+
+            let filtered = projectsData.filter(p => {
+                const matchSearch = p.customer_name.toLowerCase().includes(search);
+                const matchStage = stage === 'all' || p.current_stage == stage;
+                const pStatus = p.current_stage === 1 ? 'not-started' : (p.current_stage === 12 ? 'completed' : 'in-progress');
+                const matchStatus = status === 'all' || pStatus === status;
+                return matchSearch && matchStage && matchStatus;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state">No active projects found.</div>`;
+                return;
+            }
+            container.innerHTML = `
+                <table class="crm-table">
+                    <thead><tr><th>Client</th><th>Email</th><th>Stage</th><th>Last Updated</th><th>Actions</th></tr></thead>
+                    <tbody>${filtered.map(p => `
+                        <tr>
+                            <td><strong>${p.customer_name}</strong><span class="sub-text">${p.project_name}</span></td>
+                            <td>${p.customer_email}</td>
+                            <td><span class="stage-badge">${p.current_stage} / 12</span></td>
+                            <td>${new Date(p.updated_at).toLocaleString('en-IN', {day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'})}</td>
+                            <td><button class="btn-manage" onclick="openEditModal('${p.id}')">Manage</button></td>
+                        </tr>
+                    `).join('')}</tbody>
+                </table>
+            `;
+        }
+
+        // --- LEADS VIEW ---
+        function renderLeads() {
+            controls.innerHTML = `
+                <input type="text" id="leadSearch" placeholder="Search leads..." oninput="filterLeads()" style="padding:10px 14px; border:1px solid var(--line); background:#fff;">
+                <div class="filter-group" id="statusPills">
+                    <button class="status-pill not-reached-out active" onclick="filterLeads('Not Reached Out')">Not Reached Out</button>
+                    <button class="status-pill in-progress" onclick="filterLeads('In Progress')">In Progress</button>
+                    <button class="status-pill negotiation" onclick="filterLeads('Negotiation')">Negotiation</button>
+                    <button class="status-pill won" onclick="filterLeads('Won')">Won</button>
+                    <button class="status-pill" style="border-color:#333; color:#333;" onclick="filterLeads('all')">All</button>
+                </div>
+            `;
+            filterLeads('Not Reached Out');
+        }
+
+        let activeLeadStatus = 'Not Reached Out';
+        function filterLeads(status) {
+            if (status) {
+                activeLeadStatus = status;
+                document.querySelectorAll('#statusPills .status-pill').forEach(b => b.classList.remove('active'));
+                if (status === 'all') document.querySelector('#statusPills button:last-child').classList.add('active');
+                else document.querySelector(`#statusPills .${status.toLowerCase().replace(/ /g,'-')}`).classList.add('active');
+            }
+            const search = document.getElementById('leadSearch').value.toLowerCase();
+            let filtered = leadsData.filter(l => {
+                const matchSearch = l.full_name.toLowerCase().includes(search);
+                const matchStatus = activeLeadStatus === 'all' || l.crm_status === activeLeadStatus;
+                return matchSearch && matchStatus;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state">No leads found for this status.</div>`;
+                return;
+            }
+            container.innerHTML = `
+                <table class="crm-table">
+                    <thead><tr><th>Lead</th><th>Email</th><th>CRM Status</th><th>Date Received</th><th>Actions</th></tr></thead>
+                    <tbody>${filtered.map(l => `
+                        <tr>
+                            <td><strong>${l.full_name}</strong><span class="sub-text">${l.project_type || 'Web Inquiry'}</span></td>
+                            <td>${l.email}</td>
+                            <td>
+                                <button class="status-pill not-reached-out ${l.crm_status === 'Not Reached Out' ? 'active' : ''}" onclick="updateLeadStatus('${l.id}','Not Reached Out')">Not Reached Out</button>
+                                <button class="status-pill in-progress ${l.crm_status === 'In Progress' ? 'active' : ''}" onclick="updateLeadStatus('${l.id}','In Progress')">In Progress</button>
+                                <button class="status-pill negotiation ${l.crm_status === 'Negotiation' ? 'active' : ''}" onclick="updateLeadStatus('${l.id}','Negotiation')">Negotiation</button>
+                                <button class="status-pill won ${l.crm_status === 'Won' ? 'active' : ''}" onclick="updateLeadStatus('${l.id}','Won')">Won</button>
+                            </td>
+                            <td>${new Date(l.created_at).toLocaleString('en-IN', {day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'})}</td>
+                            <td>
+                                ${l.crm_status === 'Won' ? `<button class="btn-convert" onclick="convertToProject('${l.id}','${l.full_name}','${l.email}')">Convert to Project</button>` : `<span style="color:var(--muted); font-size:12px;">—</span>`}
+                            </td>
+                        </tr>
+                    `).join('')}</tbody>
+                </table>
+            `;
+        }
+
+        async function updateLeadStatus(id, status) {
+            await window._supabaseClient.from('inquiries').update({ crm_status: status }).eq('id', id);
+            loadData();
+        }
+
+        async function convertToProject(id, name, email) {
+            if (!confirm(`Convert ${name} to a new Active Project?`)) return;
+            await window._supabaseClient.from('projects').insert({
+                project_name: 'New Project',
+                customer_name: name,
+                customer_email: email,
+                current_stage: 1
+            });
+            await window._supabaseClient.from('inquiries').delete().eq('id', id);
+            loadData();
+            document.getElementById('viewSelector').value = 'projects';
+            switchView();
+        }
+
+        // --- EXISTING MODAL LOGIC ---
+        const modal = document.getElementById('projectModal');
+        const form = document.getElementById('projectForm');
+        function closeModal() { modal.classList.remove('open'); form.reset(); }
+        function openCreateModal() { document.getElementById('modalTitle').textContent = 'New Project'; document.getElementById('projectId').value = ''; document.getElementById('projStage').value = '1'; modal.classList.add('open'); }
+        async function openEditModal(id) {
+            document.getElementById('modalTitle').textContent = 'Edit Project';
+            const { data, error } = await window._supabaseClient.from('projects').select('*').eq('id', id).single();
+            if(error) return alert('Error loading project');
+            document.getElementById('projectId').value = data.id;
+            document.getElementById('projName').value = data.project_name;
+            document.getElementById('custName').value = data.customer_name;
+            document.getElementById('custEmail').value = data.customer_email;
+            document.getElementById('projStage').value = data.current_stage;
+            document.getElementById('updateNote').value = '';
+            modal.classList.add('open');
+        }
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('projectId').value;
+            const name = document.getElementById('projName').value.trim();
+            const customer = document.getElementById('custName').value.trim();
+            const email = document.getElementById('custEmail').value.trim();
+            const stage = parseInt(document.getElementById('projStage').value);
+            const note = document.getElementById('updateNote').value.trim();
+            let updateData = { project_name: name, customer_name: customer, customer_email: email, current_stage: stage };
+            if (note) {
+                const newNote = { date: new Date().toISOString().split('T')[0], note: note };
+                if (id) {
+                    const { data: existing } = await window._supabaseClient.from('projects').select('updates').eq('id', id).single();
+                    updateData.updates = existing ? [...existing.updates, newNote] : [newNote];
+                } else { updateData.updates = [newNote]; }
+            }
+            if (id) await window._supabaseClient.from('projects').update(updateData).eq('id', id);
+            else await window._supabaseClient.from('projects').insert(updateData);
+            closeModal(); loadData();
+        });
+
+        // Initial Load
+        loadData();
+    </script>
+</body>
+</html>

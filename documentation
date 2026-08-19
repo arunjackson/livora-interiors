@@ -1,0 +1,132 @@
+
+
+Here is every variable, function, table, and connection:
+
+
+
+# LIVORA INTERIORS - SYSTEM ARCHITECTURE DOCUMENTATION
+
+## 1. Technology Stack
+- **Frontend:** HTML, CSS (Vanilla), JavaScript (Vanilla).
+- **Backend/Auth/Database:** Supabase (PostgreSQL with Row Level Security).
+- **External Integrations:** Google Apps Script & Google Sheets (for lead capture).
+- **Hosting Environment:** Local development via Live Server (intended for Netlify/Vercel deployment).
+
+---
+
+## 2. Database Tables (Supabase Schema)
+
+### Table: `public.projects`
+Stores client project details, progress, and uploaded files.
+- `id` (UUID, Primary Key) - Unique project ID.
+- `project_name` (Text) - Name of the project (e.g., "Residence Interior").
+- `customer_name` (Text) - Full name of the client.
+- `customer_email` (Text) - Client's email (used for login).
+- `customer_phone` (Text) - Client's phone number.
+- `current_stage` (Integer, 1-12) - Current progress stage.
+- `updates` (JSONB) - Array of objects containing `{ "date": "...", "note": "..." }`.
+- `files` (JSONB) - Array of objects containing `{ "name": "...", "url": "...", "type": "..." }`.
+- `created_at` (Timestamp) - Date project was created.
+
+### Table: `public.inquiries`
+Stores leads from the public contact form.
+- `id` (UUID, Primary Key) - Unique inquiry ID.
+- `full_name` (Text) - Lead's name.
+- `email` (Text) - Lead's email.
+- `phone` (Text) - Lead's phone.
+- `project_type` (Text) - Selected dropdown value.
+- `budget_range` (Text) - Selected dropdown value.
+- `message` (Text) - Lead's description.
+- `created_at` (Timestamp) - Date inquiry was submitted.
+
+### Table: `public.admins`
+(Optional - used for future database policy mapping, though currently bypassed by direct hardcoded policy).
+- `id` (UUID, Primary Key)
+- `email` (Text, Unique) - Whitelisted admin email.
+
+### Storage Bucket: `project-files`
+- Used for storing uploaded images, invoices, and PDFs.
+- RLS Policies set to `public` read and `admin@livorainteriors.com` full access.
+
+---
+
+## 3. Key Environment Variables (Supabase Secrets)
+- `SUPABASE_URL`: `https://pdndahgnrscvdxqicxuw.supabase.co`
+- `SUPABASE_ANON_KEY`: The public JWT key used for frontend authentication.
+- `GOOGLE_SCRIPT_URL`: The deployed Apps Script Web App URL (ends in `/exec`).
+
+---
+
+## 4. Key Frontend JavaScript Variables & Functions
+
+### File: `supabaseClient.js` (Global Setup)
+- **Variable:** `window._supabaseClient`
+  - **Type:** Supabase Client Instance.
+  - **Purpose:** Connects the browser to the Supabase backend using `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
+- **Function:** `async checkUser()`
+  - **Purpose:** Checks if a user is currently logged in by reading the browser's auth session. Returns the `user` object if logged in.
+- **Function:** `async signOut()`
+  - **Purpose:** Ends the current session and redirects the browser back to `index.html`.
+
+### File: `admin.html` (Admin Dashboard)
+- **Function:** `async loadProjects()`
+  - **Purpose:** Queries the `projects` table for all rows, calculates the progress percentage (`current_stage / 12 * 100`), and renders them as Bootstrap-like cards.
+- **Function:** `openCreateModal()`
+  - **Purpose:** Clears the modal form and sets the title to "New Project" to prepare for database insertion.
+- **Function:** `async openEditModal(id)`
+  - **Purpose:** Fetches the specific project's data by ID, fills the form fields, and sets the title to "Edit Project".
+- **Function:** `closeModal()`
+  - **Purpose:** Closes the modal overlay and resets the form inputs.
+- **Event Listener:** `form.addEventListener('submit', ...)`
+  - **Purpose:** Extracts data from the inputs. If an ID exists, it `UPDATE`s the row. If no ID exists, it `INSERT`s a new row. If a file is present, it uploads it to the `project-files` bucket and stores the public URL in the `files` JSONB column.
+- **Function:** `async deleteProject(id)`
+  - **Purpose:** Prompts the user with a confirmation alert, then `DELETE`s the row from the `projects` table.
+
+### File: `my-project.html` (Client Dashboard)
+- **Array Variable:** `stageDescriptions`
+  - **Purpose:** Hardcoded array mapping the 12 numerical stages to descriptive text (e.g., Stage 1 = "Free Site Visit").
+- **Function:** `async loadClientPortal()`
+  - **Purpose:** 
+    1. Verifies the user is logged in via `checkUser()`.
+    2. Fetches the `projects` table where `customer_email` equals the logged-in user's email.
+    3. Fetches the current stage number and dynamically pulls the image `images/${current_stage}.jpg`.
+    4. Renders the progress bar, timeline updates, and file list.
+
+### File: `index.html` (Public Homepage / Inquiry Form)
+- **Event Listener:** `form.addEventListener('submit', async ...)`
+  - **Purpose:** Gathers form data, prevents page reload. If successful, it runs `window._supabaseClient.from('inquiries').insert(...)` to save the lead. 
+  - **UI Behavior:** Upon success, it clears the entire form HTML and replaces it with a "Thank You" checkmark block.
+
+---
+
+## 5. Backend Edge Function: `send-to-sheets`
+- **File:** `supabase/functions/send-to-sheets/index.ts` (Deno Runtime)
+- **Variable:** `GOOGLE_SCRIPT_URL` (Environment variable set via terminal CLI).
+- **Function:** `serve(async (req) => {...})`
+  - **Purpose:** Listens for `POST` requests from the database trigger.
+  - **Logic:** 
+    1. Accepts the JSON body.
+    2. `fetch()`es the `GOOGLE_SCRIPT_URL` with a `POST` request, forwarding the JSON data.
+    3. Returns a `200` status to Supabase if successful, or a `500` error if it fails.
+- **Trigger Activation:** The function isn't called directly by the form. It is called by Supabase via the Database Trigger below.
+
+---
+
+## 6. Database Trigger (Supabase SQL)
+- **Trigger Name:** `on_inquiry_inserted`
+- **Activation:** Fires automatically whenever a new row is successfully inserted into the `public.inquiries` table.
+- **Function called:** `public.handle_new_inquiry()`
+  - **Purpose:** This PL/pgSQL function executes `net.http_post()` to forward the newly inserted JSON data to the deployed Edge Function `send-to-sheets`, acting as the bridge between the database and Google Sheets.
+
+---
+
+## 7. Google Apps Script (Sheet Receiver)
+- **File:** `Code.gs` (Deployed as a Web App).
+- **Function:** `function doPost(e)`
+  - **Variable:** `e.postData.contents`
+    - **Purpose:** Contains the raw JSON string sent by the Supabase Edge Function.
+  - **Logic:** 
+    1. `JSON.parse()` converts the raw data into a usable Javascript object.
+    2. `sheet.appendRow([...])` takes the extracted keys (`full_name`, `email`, `phone`, etc.) and pushes them as a new row to the active Google Sheet.
+    3. Returns `ContentService.createTextOutput("OK")` to notify Supabase that it received the data.
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — Ar Bee Studio</title>
+    <link rel="icon" href="https://i.ibb.co/4nVFMjJH/Whats-App-Image-2026-08-18-at-19-58-03.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="font-fix.css" />
+    
+    <style>
+        body { background: #f4efe8; }
+        .login-section { min-height: calc(100vh - 112px); display: flex; justify-content: center; align-items: center; padding: 80px 28px; }
+        .login-card { max-width: 460px; width: 100%; background: #ffffff; padding: 55px 45px; border: 1px solid var(--line); text-align: center; border-radius: 0; box-shadow: 0 20px 50px rgba(45,36,31,0.06); }
+        .login-card .logo-img { max-width: 70px; margin-bottom: 15px; opacity: 0.9; }
+        .login-card h2 { font-family: "Cormorant Garamond", serif; font-size: 38px; font-weight: 600; margin: 0 0 8px 0; color: var(--dark); letter-spacing: -1px; }
+        .login-card .sub { color: var(--muted); font-weight: 500; font-size: 15px; margin-bottom: 35px; }
+        .login-card input { background: #f9f6f1; border: 1px solid #e4dbcf; width: 100%; padding: 16px 20px; font-family: Jost, sans-serif; font-size: 15px; transition: 0.2s; margin-top: 5px; }
+        .login-card input:focus { outline: none; border-color: var(--gold); background: #fff; }
+        .login-card .button-dark { width: 100%; margin-top: 5px; min-height: 56px; transition: 0.3s; }
+        .login-card .button-dark:hover { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+        .login-card .back-link { display: inline-block; margin-top: 25px; color: var(--gold); text-decoration: none; text-transform: uppercase; font-size: 13px; letter-spacing: 2px; }
+        .login-card .back-link:hover { text-decoration: underline; }
+        .login-card .forgot-link { display: block; text-align: right; font-size: 13px; color: var(--muted); text-decoration: none; margin-top: 10px; font-weight: 500; }
+        .login-card .forgot-link:hover { color: var(--gold); }
+        .form-status { color: #b33c3c; font-weight: 600; font-size: 14px; margin-top: 15px; display: none; }
+        .form-status.error { display: block; }
+        .form-status.success { display: block; color: #6f805d; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html">
+            <img src="https://i.ibb.co/4nVFMjJH/Whats-App-Image-2026-08-18-at-19-58-03.jpg" alt="Ar Bee Studio Logo" style="max-width:80px;height:auto;" />
+        </a>
+        <a href="index.html" style="color: var(--muted); text-decoration: none; font-weight: 500;">← Back to site</a>
+    </header>
+
+    <section class="login-section">
+        <div class="login-card">
+            <img class="logo-img" src="https://i.ibb.co/4nVFMjJH/Whats-App-Image-2026-08-18-at-19-58-03.jpg" alt="Ar Bee Studio Logo" />
+            <h2>Welcome Back</h2>
+            <p class="sub">Sign in to your project dashboard</p>
+            
+            <form id="login-form">
+                <label style="text-align:left; display:block; font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); font-weight:600; margin-bottom:18px;">
+                    Email address
+                    <input type="email" id="email" required autocomplete="email" placeholder="admin@livorainteriors.com" style="margin-top:6px;" />
+                </label>
+                <label style="text-align:left; display:block; font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); font-weight:600;">
+                    Password
+                    <input type="password" id="password" required autocomplete="current-password" placeholder="Enter your password" style="margin-top:6px;" />
+                </label>
+                <a href="#" onclick="forgotPassword()" class="forgot-link">Forgot password?</a>
+                <button class="button button-dark" type="submit">Sign in</button>
+                <p class="form-status" id="login-status" aria-live="polite"></p>
+            </form>
+            <a class="back-link" href="index.html">Return to homepage</a>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script>
+        async function forgotPassword() {
+            const email = document.getElementById('email').value.trim();
+            if(!email) return alert("Please enter your email address first.");
+            const { error } = await window._supabaseClient.auth.resetPasswordForEmail(email);
+            if(error) alert("Error: " + error.message);
+            else alert("Password reset link sent to " + email);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('login-form');
+            const statusEl = document.getElementById('login-status');
+            
+            async function checkExistingUser() {
+                try {
+                    if (typeof checkUser === 'function') {
+                        const user = await checkUser();
+                        if (user) {
+                            window.location.href = user.email === 'admin@livorainteriors.com' ? 'admin.html' : 'my-project.html';
+                        }
+                    }
+                } catch (e) {}
+            }
+            checkExistingUser();
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                statusEl.className = 'form-status';
+                statusEl.textContent = 'Please wait...';
+                statusEl.style.display = 'block';
+
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                try {
+                    const { data, error } = await window._supabaseClient.auth.signInWithPassword({ email, password });
+                    if (error) { statusEl.className = 'form-status error'; statusEl.textContent = error.message; return; }
+                    if (data.user) {
+                        statusEl.className = 'form-status success';
+                        statusEl.textContent = "Success! Redirecting...";
+                        setTimeout(() => {
+                            window.location.href = data.user.email === 'admin@livorainteriors.com' ? 'admin.html' : 'my-project.html';
+                        }, 1000);
+                    }
+                } catch (err) {
+                    statusEl.className = 'form-status error';
+                    statusEl.textContent = "Connection error. Are you using Live Server?";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
