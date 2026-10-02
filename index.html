@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="font-fix.css" />
+
+    <!-- n8n Chat Widget Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
 <body>
     <div id="top" style="position:absolute; top:0; left:0; width:0; height:0;"></div>
@@ -392,5 +395,41 @@
     });
     </script>
 
+    <!-- ================= n8n CHAT WIDGET ================= -->
+    <script type="module">
+      import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+      createChat({
+        webhookUrl: 'https://arbeestudio.app.n8n.cloud/webhook/7dfadb26-a32a-4644-be24-6f847e6f29b2/chat',
+
+        // 'window' = floating bubble (default). Use 'fullscreen' for a full-page chat.
+        mode: 'window',
+
+        // Show the greeting screen before the first message
+        showWelcomeScreen: false,
+
+        // Messages the bot "says" when the chat opens
+        initialMessages: [
+          'Hi there! 👋',
+          'Welcome to Ar Bee Studio. Tell us about your space and we’ll help you get started.'
+        ],
+
+        // Labels / language
+        i18n: {
+          en: {
+            title: 'Ar Bee Studio',
+            subtitle: 'Interior Design Assistant',
+            inputPlaceholder: 'Type your message…',
+            getStarted: 'Start a chat',
+            footer: '',
+            closeButtonTooltip: 'Close chat'
+          }
+        },
+
+        // Optional: turn off file uploads if your workflow doesn't handle them
+        // enableFileUploads: false,
+      });
+    </script>
+    <!-- =================================================== -->
 </body>
 </html>
