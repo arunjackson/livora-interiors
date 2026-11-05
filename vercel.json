@@ -1,0 +1,26 @@
+
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/facebook",
+      "destination": "https://www.facebook.com/profile.php?id=61594519481634",
+      "statusCode": 301
+    },
+    {
+      "source": "/instagram",
+      "destination": "https://www.instagram.com/arbeestudio62/",
+      "statusCode": 301
+    },
+    {
+      "source": "/linkedin",
+      "destination": "https://www.linkedin.com/company/ar-bee-studio/",
+      "statusCode": 301
+    },
+    {
+      "source": "/youtube",
+      "destination": "https://www.youtube.com/@ArBeeStudio",
+      "statusCode": 301
+    }
+  ]
+}
