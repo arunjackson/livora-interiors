@@ -1,4 +1,4 @@
-Ar Bee Studio<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -340,60 +340,45 @@ Ar Bee Studio<!doctype html>
     <!-- Auth & Supabase Config -->
     <script src="supabaseClient.js"></script>
 
-    <!-- Supabase Form Handler (REPLACED with hide-and-thank-you) -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.getElementById("inquiryForm");
-        if (!form) return;
-        
-        form.addEventListener("submit", async function(e) {
-            e.preventDefault();
-            
-            const statusContainer = document.getElementById("form-status-container");
-            const submitBtn = document.getElementById("submitBtn");
-            
-            statusContainer.innerHTML = '<p style="color: var(--gold); font-weight:600;">Sending...</p>';
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.6';
+    <!-- whatsapp Form Handler (REPLACED with hide-and-thank-you) -->
+   
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("inquiryForm");
 
-            const name = document.getElementById("formName").value.trim();
-            const email = document.getElementById("formEmail").value.trim();
-            const phone = document.getElementById("formPhone").value.trim();
-            const project = document.getElementById("formProject").value;
-            const budget = document.getElementById("formBudget").value;
-            const message = document.getElementById("formMessage").value.trim();
+    if (!form) return;
 
-            // Send to Supabase 'inquiries' table
-            const { error } = await window._supabaseClient
-                .from('inquiries')
-                .insert([{ 
-                    full_name: name, 
-                    email: email, 
-                    phone: phone, 
-                    project_type: project, 
-                    budget_range: budget, 
-                    message: message 
-                }]);
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
 
-            if (error) {
-                statusContainer.innerHTML = `<p style="color: #bf3131; font-weight:600;">Error: ${error.message}</p>`;
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-            } else {
-                // REPLACE THE ENTIRE FORM WITH A THANK YOU MESSAGE
-                form.innerHTML = `
-                    <div style="text-align: center; padding: 50px 0 20px 0;">
-                        <i class="fas fa-check-circle" style="font-size: 70px; color: var(--gold); margin-bottom: 25px;"></i>
-                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 38px; color: var(--dark); margin: 0 0 15px;">Thank You!</h3>
-                        <p style="color: var(--muted); font-weight: 500; font-size: 17px; line-height: 1.6; max-width: 460px; margin: 0 auto;">
-                            Your inquiry has been received. We’ll be in touch shortly.
-                        </p>
-                    </div>
-                `;
-            }
-        });
+        const name = document.getElementById("formName").value.trim();
+        const email = document.getElementById("formEmail").value.trim();
+        const phone = document.getElementById("formPhone").value.trim();
+        const project = document.getElementById("formProject").value;
+        const budget = document.getElementById("formBudget").value;
+        const message = document.getElementById("formMessage").value.trim();
+
+        const whatsappMessage =
+`Hello Ar Bee Studio! I'd like to inquire about an interior design project.
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Project Type: ${project}
+Budget: ${budget || "Not specified"}
+
+Project Details:
+${message}`;
+
+        const whatsappURL =
+            "https://wa.me/918065353962?text=" +
+            encodeURIComponent(whatsappMessage);
+
+        window.open(whatsappURL, "_blank");
     });
-    </script>
+});
+</script>
+
 
     <!-- ================= n8n CHAT WIDGET ================= -->
     <script type="module">
